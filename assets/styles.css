@@ -15,7 +15,6 @@ body {
 }
 
 .navbar {
-    /* background: rgba(102, 51, 238, 0.1); */
     backdrop-filter: blur(10px) saturate(180%);
     -webkit-backdrop-filter: blur(10px) saturate(180%);
     border: none;
@@ -980,8 +979,6 @@ body {
     }
 }
 
-/* ...existing code... */
-
 .custom-toggler {
     border: none !important;
     padding: 0.5rem !important;
@@ -1022,8 +1019,6 @@ body {
 .navbar-toggler[aria-expanded="true"] .line-3 {
     transform: translateY(-5px) rotate(-45deg);
 }
-
-/* ...existing code... */
 
 .profile-info {
     display: flex;
@@ -1084,8 +1079,6 @@ body {
     }
 }
 
-/* ...existing code... */
-
 .profile-wrapper {
     display: flex;
     align-items: center;
@@ -1140,8 +1133,6 @@ body {
     }
 }
 
-/* ...existing code... */
-
 .profile-wrapper {
     margin-bottom: 2rem;
 }
@@ -1152,18 +1143,18 @@ body {
     gap: 1.2rem;
     flex-wrap: nowrap;
     width: fit-content;
-    position: relative; /* Para posicionamiento relativo */
+    position: relative;
 }
 
 .profile-image {
-    width: 90px; /* Ancho fijo igual que la imagen */
+    width: 90px;
     display: flex;
     align-items: center;
 }
 
 .status-badge {
     position: relative;
-    left: 1rem; /* Ajusta la posición horizontal */
+    left: 1rem;
     height: 36px;
     display: inline-flex;
     align-items: center;
@@ -1185,7 +1176,7 @@ body {
     }
 
     .profile-image {
-        width: 70px; /* Ajusta al tamaño móvil de la imagen */
+        width: 70px;
     }
 
     .status-badge {
@@ -1208,8 +1199,6 @@ body {
     }
 }
 
-/* ...existing code... */
-
 .profile-row {
     display: flex;
     align-items: center;
@@ -1220,7 +1209,7 @@ body {
 .profile-image {
     display: inline-flex;
     align-items: center;
-    margin-right: -10px; /* Ajuste para acercar el badge a la foto */
+    margin-right: -10px;
 }
 
 .status-badge {
@@ -1229,7 +1218,7 @@ body {
     height: 36px;
     padding: 0.5rem 1.25rem;
     position: relative;
-    margin-left: 20px; /* Espacio consistente desde la foto */
+    margin-left: 20px;
     background: rgba(255, 255, 255, 0.1);
     border-radius: 9999px;
     font-size: 0.95rem;
@@ -1239,7 +1228,6 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Mantener la alineación en todos los breakpoints */
 @media (max-width: 768px) {
     .profile-row {
         flex-direction: row;
@@ -1275,10 +1263,6 @@ body {
     }
 }
 
-/* ...existing code... */
-
-/* ...existing code... */
-
 .profile-container {
     position: relative;
     display: inline-flex;
@@ -1292,7 +1276,7 @@ body {
 
 .status-badge {
     position: absolute;
-    left: calc(100% + 15px); /* Aumentado el espacio desde la imagen */
+    left: calc(100% + 15px);
     top: 50%;
     transform: translateY(-50%);
     height: 36px;
@@ -1313,7 +1297,7 @@ body {
     background: rgba(139, 92, 246, 0.1);
     border-color: rgba(139, 92, 246, 0.2);
     box-shadow: 0 0 20px rgba(139, 92, 246, 0.15);
-    transform: translateY(-50%) scale(1.02); /* Sutil efecto de escala manteniendo el centrado vertical */
+    transform: translateY(-50%) scale(1.02);
 }
 
 @media (max-width: 768px) {
@@ -1322,7 +1306,7 @@ body {
     }
 
     .status-badge {
-        left: calc(100% + 12px); /* Ajustado para móvil */
+        left: calc(100% + 12px);
         height: 34px;
         padding: 0.4rem 1rem;
         font-size: 0.9rem;
@@ -1331,15 +1315,11 @@ body {
 
 @media (max-width: 480px) {
     .status-badge {
-        left: calc(100% + 10px); /* Ajustado para pantallas muy pequeñas */
+        left: calc(100% + 10px);
         padding: 0.4rem 0.8rem;
         font-size: 0.85rem;
     }
 }
-
-/* ...existing code... */
-
-/* ...existing code... */
 
 .coming-soon-container {
     background: rgba(255, 255, 255, 0.03);
@@ -1349,6 +1329,8 @@ body {
     text-align: center;
     backdrop-filter: blur(10px);
     transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
 }
 
 .coming-soon-content {
@@ -1361,6 +1343,8 @@ body {
     color: #8b5cf6;
     margin-bottom: 1.5rem;
     animation: float 3s ease-in-out infinite;
+    transform-origin: center;
+    will-change: transform;
 }
 
 .coming-soon-title {
@@ -1390,11 +1374,18 @@ body {
     padding: 1.5rem;
     border-radius: 8px;
     text-align: left;
+    position: relative;
+    min-height: 100px;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
 }
 
 .code-line {
     color: rgba(255, 255, 255, 0.7);
     font-size: 1rem;
+    position: relative;
+    z-index: 1;
 }
 
 .code-line.typing {
@@ -1451,10 +1442,6 @@ body {
     }
 }
 
-/* ...existing code... */
-
-/* ...existing code... */
-
 .footer-section {
     padding: 2rem 0;
     margin-top: 4rem;
@@ -1478,9 +1465,6 @@ body {
     50% { transform: scale(1.1); }
 }
 
-/* ...existing code... */
-
-/* Estilos del Scrollbar */
 ::-webkit-scrollbar {
     width: 10px;
     background: rgba(255, 255, 255, 0.03);
@@ -1503,15 +1487,10 @@ body {
     box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
 }
 
-/* Para Firefox */
 * {
     scrollbar-width: thin;
     scrollbar-color: #8b5cf6 rgba(255, 255, 255, 0.03);
 }
-
-/* ...existing code... */
-
-/* ...existing code... */
 
 .about-container {
     background: rgba(255, 255, 255, 0.03);
@@ -1607,10 +1586,6 @@ body {
     }
 }
 
-/* ...existing code... */
-
-/* ...existing code... */
-
 .company-info {
     display: flex;
     flex-direction: column;
@@ -1666,4 +1641,175 @@ body {
     }
 }
 
-/* ...existing code... */
+.coming-soon-wrapper {
+    min-height: 500px;
+    position: relative;
+    margin: 3rem 0;
+}
+
+.coming-soon-container {
+    width: 100%;
+    position: relative;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 4rem 2rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.coming-soon-icon {
+    display: inline-block;
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+}
+
+@media (max-width: 768px) {
+    .coming-soon-wrapper {
+        min-height: 450px;
+    }
+}
+
+.code-animation-wrapper {
+    height: 120px;
+    width: 100%;
+    max-width: 400px;
+    margin: 2rem auto;
+    position: relative;
+    overflow: hidden;
+}
+
+.code-animation {
+    position: relative;
+    width: 100%;
+    padding: 1.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.code-line {
+    display: block;
+    color: rgba(255, 255, 255, 0.7);
+    font-family: 'Consolas', monospace;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+.code-line.static {
+    opacity: 0.8;
+}
+
+.code-line.typing {
+    color: #8b5cf6;
+    position: relative;
+    width: fit-content;
+}
+
+.code-editor {
+    width: 100%;
+    max-width: 500px;
+    margin: 2rem auto;
+    background: #1e1e1e;
+    border-radius: 8px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+    overflow: hidden;
+}
+
+.code-header {
+    background: #2d2d2d;
+    padding: 0.8rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.dot.red { background: #ff5f56; }
+.dot.yellow { background: #ffbd2e; }
+.dot.green { background: #27c93f; }
+
+.filename {
+    color: #858585;
+    font-size: 0.9rem;
+    margin-left: 1rem;
+    font-family: 'Consolas', monospace;
+}
+
+.code-content {
+    padding: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
+    min-height: 180px;
+}
+
+.line-numbers {
+    display: flex;
+    flex-direction: column;
+    color: #858585;
+    font-family: 'Consolas', monospace;
+    user-select: none;
+}
+
+.code-lines {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.code-line {
+    font-family: 'Consolas', monospace;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #d4d4d4;
+}
+
+.keyword { color: #569cd6; }
+.variable { color: #9cdcfe; }
+.operator { color: #d4d4d4; }
+.string { color: #ce9178; }
+.comment { color: #6a9955; }
+
+.typing {
+    overflow: hidden;
+    white-space: nowrap;
+    animation: typing 3s steps(30) infinite;
+}
+
+.blink {
+    animation: blink 1s step-end infinite;
+    color: #8b5cf6;
+}
+
+@keyframes typing {
+    0%, 100% { width: 0; }
+    50% { width: 100%; }
+}
+
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+@media (max-width: 768px) {
+    .code-editor {
+        max-width: 100%;
+        margin: 1.5rem auto;
+    }
+
+    .code-content {
+        padding: 1rem;
+        min-height: 150px;
+    }
+
+    .code-line {
+        font-size: 0.9rem;
+    }
+}
