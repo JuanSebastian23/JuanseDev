@@ -1,0 +1,54 @@
+version = 1
+
+# Habilitar el analizador de JavaScript
+[[analyzers]]
+name = "javascript"
+enabled = true
+
+[analyzers.meta]
+runtime_version = "latest"
+environment = ["nodejs", "browser"]
+style_guide = "standard"
+module_system = "es-modules"
+
+# Habilitar el analizador de seguridad
+[[analyzers]]
+name = "secrets"
+enabled = true
+
+# Analizador de pruebas
+[[analyzers]]
+name = "test-coverage"
+enabled = true
+
+# Analizador de ESLint
+[[analyzers]]
+name = "eslint"
+enabled = true
+
+[analyzers.meta]
+plugin_paths = [".eslintrc.js"]
+
+# Ignorar carpetas innecesarias
+[ignores]
+paths = [
+  "node_modules/",
+  "dist/",
+  "build/",
+  "coverage/",
+  ".cache/",
+  "public/",
+  "*.test.js",
+  "*.spec.js"
+]
+
+# Excluir commits específicos (opcional)
+exclude_patterns = [
+  "docs/*",
+  "*.md"
+]
+
+# Configuración de métricas de código
+[metrics]
+enabled = true
+threshold = "medium"
