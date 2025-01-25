@@ -1,6 +1,5 @@
 version = 1
 
-# Habilitar el analizador de JavaScript
 [[analyzers]]
 name = "javascript"
 enabled = true
@@ -10,18 +9,17 @@ runtime_version = "latest"
 environment = ["nodejs", "browser"]
 style_guide = "standard"
 module_system = "es-modules"
+dialect = "typescript"  # Agregado para soporte TypeScript
 
-# Habilitar el analizador de seguridad
 [[analyzers]]
 name = "secrets"
 enabled = true
 
-# Analizador de pruebas
 [[analyzers]]
 name = "test-coverage"
 enabled = true
+mode = "basic"
 
-# Analizador de ESLint
 [[analyzers]]
 name = "eslint"
 enabled = true
@@ -30,25 +28,22 @@ enabled = true
 plugin_paths = [".eslintrc.js"]
 
 # Ignorar carpetas innecesarias
-[ignores]
+[excludes]
 paths = [
   "node_modules/",
   "dist/",
   "build/",
   "coverage/",
   ".cache/",
-  "public/",
-  "*.test.js",
-  "*.spec.js"
+  "public/"
 ]
 
-# Excluir commits específicos (opcional)
-exclude_patterns = [
-  "docs/*",
-  "*.md"
+[test-patterns]
+paths = [
+  "**/*.test.js",
+  "**/*.spec.js"
 ]
 
 # Configuración de métricas de código
 [metrics]
 enabled = true
-threshold = "medium"
