@@ -5,11 +5,8 @@ name = "javascript"
 enabled = true
 
 [analyzers.meta]
-runtime_version = "latest"
 environment = ["nodejs", "browser"]
-style_guide = "standard"
 module_system = "es-modules"
-dialect = "typescript"  # Agregado para soporte TypeScript
 
 [[analyzers]]
 name = "secrets"
@@ -20,14 +17,6 @@ name = "test-coverage"
 enabled = true
 mode = "basic"
 
-[[analyzers]]
-name = "eslint"
-enabled = true
-
-[analyzers.meta]
-plugin_paths = [".eslintrc.js"]
-
-# Ignorar carpetas innecesarias
 [excludes]
 paths = [
   "node_modules/",
@@ -44,6 +33,5 @@ paths = [
   "**/*.spec.js"
 ]
 
-# Configuración de métricas de código
 [metrics]
 enabled = true
