@@ -1,3 +1,4 @@
+/* global $ */
 $(document).ready(function() {
     $("#header-component").load("components/header.html", function() {
         // Actualizar link activo basado en la sección visible

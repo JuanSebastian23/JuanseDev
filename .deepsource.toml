@@ -5,8 +5,12 @@ name = "javascript"
 enabled = true
 
 [analyzers.meta]
-environment = ["nodejs", "browser"]
+environment = ["nodejs", "browser", "jquery"]
 module_system = "es-modules"
+dependency_files = [
+  "package.json",
+  "bower.json"
+]
 
 [[analyzers]]
 name = "secrets"
