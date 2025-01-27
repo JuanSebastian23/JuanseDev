@@ -1525,6 +1525,11 @@ body {
     margin-top: 2rem;
 }
 
+.highlight { 
+    color: #8b5cf6;
+    
+}
+
 .about-stats {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
