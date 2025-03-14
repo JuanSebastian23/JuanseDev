@@ -1,40 +1,109 @@
 <section id="proyectos" class="section-custom">
     <div class="container">
         <h2 class="section-title">Proyectos</h2>
-        <div class="coming-soon-wrapper">
-            <div class="coming-soon-container">
-                <div class="coming-soon-content">
-                    <div class="coming-soon-icon">
-                        <i class="bi bi-code-square"></i>
+        
+        <div class="projects-grid">
+            <!-- TodoList Project -->
+            <div class="project-card code-themed">
+                <div class="project-card-header">
+                    <div class="window-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
                     </div>
-                    <h3 class="coming-soon-title">Próximamente</h3>
-                    <p class="coming-soon-text">
-                        Estoy trabajando en proyectos emocionantes que pronto compartiré contigo.
-                        <span class="highlight">¡Mantente atento!</span>
+                    <div class="project-title-bar">
+                        <i class="bi bi-code-slash"></i>
+                        <span>TodoList.App</span>
+                    </div>
+                </div>
+                <div class="project-image">
+                    <img src="assets/images/TodoList-Proyecto.webp" alt="TodoList App Preview">
+                    <div class="project-overlay">
+                        <a href="https://juansedev.com/Todo-List/public/" target="_blank" class="project-btn view-live">
+                            <i class="bi bi-eye"></i> Visitar
+                        </a>
+                        <a href="https://github.com/JuanSebastian23/TodoList" target="_blank" class="project-btn view-code">
+                            <i class="bi bi-github"></i> Ver Código
+                        </a>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <div class="code-comment">// Descripción del proyecto</div>
+                    <p class="project-description">
+                        Aplicación de gestión de tareas desarrollada con Laravel y MySQL. Permite crear, editar y eliminar tareas, 
+                        organización por categorías y estado de completado.
                     </p>
-                    <div class="code-editor">
-                        <div class="code-header">
-                            <span class="dot red"></span>
-                            <span class="dot yellow"></span>
-                            <span class="dot green"></span>
-                            <span class="filename">projects.js</span>
-                        </div>
-                        <div class="code-content">
-                            <div class="line-numbers">
-                                <span>1</span>
-                                <span>2</span>
-                                <span>3</span>
-                                <span>4</span>
-                                <span>5</span>
-                            </div>
-                            <div class="code-lines">
-                                <span class="code-line"><span class="keyword">const</span> <span class="variable">projects</span> <span class="operator">=</span> [];</span>
-                                <span class="code-line"><span class="variable">status</span> <span class="operator">=</span> <span class="string">"loading..."</span>;</span>
-                                <span class="code-line comment">// Initializing development environment</span>
-                                <span class="code-line typing"><span class="comment">// Building amazing things...</span></span>
-                                <span class="code-line blink">█</span>
-                            </div>
-                        </div>
+                    <div class="code-comment">// Tech Stack</div>
+                    <div class="project-tech">
+                        <span class="tech-tag"><i class="devicon-laravel-plain"></i> Laravel</span>
+                        <span class="tech-tag"><i class="devicon-mysql-plain"></i> MySQL</span>
+                        <span class="tech-tag"><i class="devicon-javascript-plain"></i> JavaScript</span>
+                        <span class="tech-tag"><i class="devicon-bootstrap-plain"></i> Bootstrap</span>
+                        <span class="tech-tag"><i class="devicon-css3-plain"></i> CSS</span>
+                    </div>
+                </div>
+                <div class="project-card-footer">
+                    <div class="code-line-numbers">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                    </div>
+                    <div class="mini-code-preview">
+                        <span class="code-line"><span class="keyword">const</span> <span class="variable">project</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="class">TodoList</span>();</span>
+                        <span class="code-line"><span class="variable">project</span>.<span class="method">deploy</span>();</span>
+                        <span class="code-line"><span class="comment">// Explora el código en GitHub</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Text Encryptor Project -->
+            <div class="project-card code-themed">
+                <div class="project-card-header">
+                    <div class="window-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="project-title-bar">
+                        <i class="bi bi-shield-lock"></i>
+                        <span>Text-Encryptor.js</span>
+                    </div>
+                </div>
+                <div class="project-image">
+                    <img src="assets/images/Text-Encryptor.webp" alt="Text Encryptor Preview">
+                    <div class="project-overlay">
+                        <a href="https://juansedev.com/Text-Encryptor/" target="_blank" class="project-btn view-live">
+                            <i class="bi bi-eye"></i> Visitar
+                        </a>
+                        <a href="https://github.com/JuanSebastian23/Text-Encryptor" target="_blank" class="project-btn view-code">
+                            <i class="bi bi-github"></i> Ver Código
+                        </a>
+                    </div>
+                </div>
+                <div class="project-info">
+                    <div class="code-comment">// Descripción del proyecto</div>
+                    <p class="project-description">
+                        Aplicación web que permite encriptar y desencriptar textos mediante un algoritmo personalizado. 
+                        Interfaz intuitiva que facilita la conversión segura de mensajes.
+                    </p>
+                    <div class="code-comment">// Tech Stack</div>
+                    <div class="project-tech">
+                        <span class="tech-tag"><i class="devicon-html5-plain"></i> HTML5</span>
+                        <span class="tech-tag"><i class="devicon-css3-plain"></i> CSS3</span>
+                        <span class="tech-tag"><i class="devicon-javascript-plain"></i> JavaScript</span>
+                        <span class="tech-tag"><i class="devicon-bootstrap-plain"></i> Bootstrap</span>
+                    </div>
+                </div>
+                <div class="project-card-footer">
+                    <div class="code-line-numbers">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                    </div>
+                    <div class="mini-code-preview">
+                        <span class="code-line"><span class="keyword">function</span> <span class="method">encrypt</span>(<span class="variable">text</span>) {</span>
+                        <span class="code-line">  <span class="keyword">return</span> <span class="variable">text</span>.<span class="method">transform</span>();</span>
+                        <span class="code-line"><span class="comment">// Algoritmo de encriptación</span></span>
                     </div>
                 </div>
             </div>
