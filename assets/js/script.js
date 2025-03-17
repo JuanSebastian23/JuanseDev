@@ -33,6 +33,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 element.innerHTML = html;
                 console.log(`Componente ${component.id} cargado exitosamente`);
                 
+                // Si es el componente hero, inicializar los modales personalizados
+                if (component.id === 'hero-component') {
+                    initializeCustomModals();
+                }
+                
                 // Reinicializar AOS después de cargar el componente
                 if (typeof AOS !== 'undefined') {
                     AOS.refresh();
@@ -52,7 +57,7 @@ document.addEventListener('DOMContentLoaded', function() {
     components.forEach(component => {
         promiseChain = promiseChain.then(() => loadComponent(component));
     });
-    
+
     // Configurar el botón de scroll hacia arriba
     const scrollTopButton = document.getElementById('scroll-top');
     
@@ -170,3 +175,365 @@ $.easing.easeInOutQuart = function (x, t, b, c, d) {
     if ((t/=d/2) < 1) return c/2*t*t*t*t + b;
     return -c/2 * ((t-=2)*t*t*t - 2) + b;
 };
+
+// Función para inicializar los modales personalizados
+function initializeCustomModals() {
+    console.log("Inicializando modales personalizados después de cargar hero...");
+    
+    // Referencias a los elementos del DOM (ahora podemos localizarlos correctamente)
+    const cvBtn = document.getElementById('cvBtn');
+    const contactBtn = document.getElementById('contactBtn');
+    const customCVModal = document.getElementById('customCVModal');
+    const customContactModal = document.getElementById('customContactModal');
+    const closeCVModal = document.getElementById('closeCVModal');
+    const closeContactModal = document.getElementById('closeContactModal');
+    
+    console.log("Botón CV:", cvBtn);
+    console.log("Botón Contacto:", contactBtn);
+    
+    // Verificar si los elementos existen
+    if (!customCVModal || !customContactModal) {
+        console.error("No se encontraron los modales personalizados");
+        return;
+    }
+    
+    // Inicializar la navegación de páginas del CV
+    initCVPageNavigation();
+    
+    // Funcionalidad para abrir/cerrar modales
+    function openModal(modal) {
+        console.log("Abriendo modal:", modal.id);
+        document.body.classList.add('no-scroll');
+        modal.classList.add('active');
+        setTimeout(() => {
+            modal.classList.add('visible');
+        }, 10);
+    }
+    
+    function closeModal(modal) {
+        console.log("Cerrando modal:", modal.id);
+        modal.classList.remove('visible');
+        setTimeout(() => {
+            modal.classList.remove('active');
+            document.body.classList.remove('no-scroll');
+        }, 300);
+    }
+    
+    // Event listeners para abrir modales si existen
+    if (cvBtn) {
+        cvBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("Clic en botón CV");
+            // Si es móvil, abrir en nueva pestaña
+            if (window.innerWidth < 768) {
+                window.open('assets/archives/Cv_Juan Sebastian Quinto H.pdf', '_blank');
+            } else {
+                openModal(customCVModal);
+            }
+        });
+    } else {
+        console.error("No se encontró el botón de CV");
+    }
+    
+    if (contactBtn) {
+        contactBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            console.log("Clic en botón Contacto");
+            openModal(customContactModal);
+        });
+    } else {
+        console.error("No se encontró el botón de Contacto");
+    }
+    
+    // Event listeners para cerrar modales
+    if (closeCVModal) {
+        closeCVModal.addEventListener('click', () => {
+            closeModal(customCVModal);
+        });
+    }
+    
+    if (closeContactModal) {
+        closeContactModal.addEventListener('click', () => {
+            closeModal(customContactModal);
+        });
+    }
+    
+    // Cerrar al hacer clic en backdrop
+    const modalBackdrops = document.querySelectorAll('.custom-modal-backdrop');
+    modalBackdrops.forEach(backdrop => {
+        backdrop.addEventListener('click', function(e) {
+            e.stopPropagation();
+            const modal = this.closest('.custom-modal');
+            closeModal(modal);
+        });
+    });
+    
+    // Cerrar con la tecla ESC
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            if (customCVModal.classList.contains('active')) closeModal(customCVModal);
+            if (customContactModal.classList.contains('active')) closeModal(customContactModal);
+        }
+    });
+    
+    // Inicializar formulario de contacto si existe
+    const form = document.getElementById('contactForm');
+    if (form) {
+        const inputs = form.querySelectorAll('input, textarea');
+        
+        // Animación para inputs del formulario
+        inputs.forEach(input => {
+            // Establecer estado activo si ya tiene valor
+            if (input.value) {
+                input.parentElement.classList.add('active');
+            }
+            
+            // Eventos para la animación
+            input.addEventListener('focus', () => {
+                input.parentElement.classList.add('active');
+            });
+            
+            input.addEventListener('blur', () => {
+                if (!input.value) {
+                    input.parentElement.classList.remove('active');
+                }
+            });
+        });
+        
+        // Validación del formulario
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let isValid = true;
+            // Limpiar mensajes de error previos
+            form.querySelectorAll('.error-message').forEach(msg => {
+                msg.textContent = '';
+            });
+            
+            // Validar cada campo
+            inputs.forEach(input => {
+                const errorEl = input.closest('.custom-form-group').querySelector('.error-message');
+                
+                if (!input.value) {
+                    errorEl.textContent = 'Este campo es obligatorio';
+                    isValid = false;
+                    input.parentElement.classList.add('error');
+                } else if (input.type === 'email' && !validateEmail(input.value)) {
+                    errorEl.textContent = 'Ingresa un email válido';
+                    isValid = false;
+                    input.parentElement.classList.add('error');
+                } else {
+                    input.parentElement.classList.remove('error');
+                }
+            });
+            
+            if (isValid) {
+                submitForm(form, inputs);
+            }
+        });
+    } else {
+        console.error("No se encontró el formulario de contacto");
+    }
+}
+
+// Nueva función para manejar la navegación de las páginas del CV
+function initCVPageNavigation() {
+    const prevBtn = document.getElementById('prevPageBtn');
+    const nextBtn = document.getElementById('nextPageBtn');
+    const pages = document.querySelectorAll('.cv-page');
+    const currentPageEl = document.getElementById('currentPage');
+    const totalPagesEl = document.getElementById('totalPages');
+    
+    // Referencias para el zoom
+    const zoomInBtn = document.getElementById('zoomInBtn');
+    const zoomOutBtn = document.getElementById('zoomOutBtn');
+    const zoomLevelEl = document.querySelector('.zoom-level');
+    
+    let zoomLevel = 100; // Porcentaje de zoom actual
+    const zoomStep = 20; // Incremento/decremento de zoom en porcentaje
+    const minZoom = 60; // Zoom mínimo
+    const maxZoom = 200; // Zoom máximo
+    
+    if (!prevBtn || !nextBtn || !pages.length || !currentPageEl || !totalPagesEl) {
+        console.error('No se encontraron elementos necesarios para la navegación del CV');
+        return;
+    }
+    
+    let currentPage = 1;
+    const totalPages = pages.length;
+    
+    // Actualizar el contador total de páginas
+    totalPagesEl.textContent = totalPages;
+    
+    function showPage(pageNum) {
+        // Ocultar todas las páginas
+        pages.forEach(page => {
+            page.classList.remove('active');
+        });
+        
+        // Mostrar la página actual
+        const activePage = document.querySelector(`.cv-page[data-page="${pageNum}"]`);
+        if (activePage) {
+            activePage.classList.add('active');
+            currentPage = pageNum;
+            currentPageEl.textContent = currentPage;
+            
+            // Actualizar estado de los botones
+            prevBtn.disabled = currentPage === 1;
+            nextBtn.disabled = currentPage === totalPages;
+        }
+    }
+    
+    // Función para actualizar el zoom
+    function updateZoom() {
+        // Actualizar todas las páginas para mantener consistencia
+        pages.forEach(page => {
+            page.style.transform = `scale(${zoomLevel / 100})`;
+        });
+        
+        // Actualizar el indicador de nivel de zoom
+        zoomLevelEl.textContent = `${zoomLevel}%`;
+        
+        // Actualizar estado de los botones de zoom
+        zoomOutBtn.disabled = zoomLevel <= minZoom;
+        zoomInBtn.disabled = zoomLevel >= maxZoom;
+        
+        // Agregar clase para indicar cuando el zoom está activo
+        const cvImageContainer = document.querySelector('.cv-image-container');
+        if (cvImageContainer) {
+            if (zoomLevel > 100) {
+                cvImageContainer.classList.add('zoom-active');
+            } else {
+                cvImageContainer.classList.remove('zoom-active');
+            }
+        }
+    }
+    
+    // Event listeners para los botones de navegación
+    prevBtn.addEventListener('click', () => {
+        if (currentPage > 1) {
+            showPage(currentPage - 1);
+        }
+    });
+    
+    nextBtn.addEventListener('click', () => {
+        if (currentPage < totalPages) {
+            showPage(currentPage + 1);
+        }
+    });
+    
+    // Event listeners para los botones de zoom
+    if (zoomInBtn && zoomOutBtn) {
+        zoomInBtn.addEventListener('click', () => {
+            if (zoomLevel < maxZoom) {
+                zoomLevel += zoomStep;
+                updateZoom();
+            }
+        });
+        
+        zoomOutBtn.addEventListener('click', () => {
+            if (zoomLevel > minZoom) {
+                zoomLevel -= zoomStep;
+                updateZoom();
+            }
+        });
+    }
+    
+    // Inicializar mostrando la primera página
+    showPage(1);
+    // Inicializar zoom
+    updateZoom();
+    
+    // Permitir navegación con teclado cuando el modal está activo
+    document.addEventListener('keydown', function(e) {
+        const cvModal = document.getElementById('customCVModal');
+        if (cvModal && cvModal.classList.contains('active')) {
+            if (e.key === 'ArrowLeft' && currentPage > 1) {
+                showPage(currentPage - 1);
+            } else if (e.key === 'ArrowRight' && currentPage < totalPages) {
+                showPage(currentPage + 1);
+            } else if (e.key === '+' || e.key === '=') {
+                // Tecla + para hacer zoom in
+                if (zoomLevel < maxZoom) {
+                    zoomLevel += zoomStep;
+                    updateZoom();
+                }
+            } else if (e.key === '-' || e.key === '_') {
+                // Tecla - para hacer zoom out
+                if (zoomLevel > minZoom) {
+                    zoomLevel -= zoomStep;
+                    updateZoom();
+                }
+            } else if (e.key === '0') {
+                // Tecla 0 para resetear zoom
+                zoomLevel = 100;
+                updateZoom();
+            }
+        }
+    });
+}
+
+function validateEmail(email) {
+    const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+}
+
+function submitForm(form, inputs) {
+    // Mostrar estado de carga
+    const submitBtn = form.querySelector('.custom-submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const originalText = btnText.textContent;
+    
+    submitBtn.classList.add('loading');
+    btnText.textContent = 'Enviando...';
+    
+    // Ocultar mensajes previos
+    document.querySelector('.form-response .success-message').style.display = 'none';
+    document.querySelector('.form-response .error-message-box').style.display = 'none';
+    
+    // Enviar formulario con fetch
+    const formData = new FormData(form);
+    
+    fetch(form.action, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Mostrar mensaje de éxito
+            document.querySelector('.form-response .success-message').style.display = 'flex';
+            document.querySelector('.form-response .success-message span').textContent = data.message;
+            
+            // Limpiar formulario
+            form.reset();
+            inputs.forEach(input => {
+                input.parentElement.classList.remove('active');
+            });
+            
+            // Cerrar modal después de 3 segundos
+            setTimeout(() => {
+                const customContactModal = document.getElementById('customContactModal');
+                customContactModal.classList.remove('visible');
+                setTimeout(() => {
+                    customContactModal.classList.remove('active');
+                    document.body.classList.remove('no-scroll');
+                }, 300);
+            }, 3000);
+        } else {
+            // Mostrar mensaje de error
+            document.querySelector('.form-response .error-message-box').style.display = 'flex';
+            document.querySelector('.form-response .error-message-box span').textContent = data.message;
+        }
+    })
+    .catch(error => {
+        // Error de conexión
+        document.querySelector('.form-response .error-message-box').style.display = 'flex';
+        document.querySelector('.form-response .error-message-box span').textContent = 'Error de conexión. Por favor, intenta de nuevo.';
+    })
+    .finally(() => {
+        // Restaurar botón
+        submitBtn.classList.remove('loading');
+        btnText.textContent = originalText;
+    });
+}

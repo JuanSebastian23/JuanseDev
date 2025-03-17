@@ -1,0 +1,22 @@
+# Archivos de configuración con claves API y datos sensibles
+assets/php/config.php
+
+# Archivos de sistema
+.DS_Store
+Thumbs.db
+
+# Archivos de entorno local
+.env
+
+# Dependencias y directorios de sistemas de construcción
+/node_modules
+/vendor
+
+# Archivos de caché
+*.log
+*.cache
+
+# Otros archivos que no deben subirse al repositorio
+*.bak
+*.tmp
+*~

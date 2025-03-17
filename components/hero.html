@@ -23,16 +23,16 @@
                 </p>
                 
                 <div class="hero-buttons" data-aos="fade-up" data-aos-delay="400">
-                    <a href="mailto:juans.quintoh@hotmail.com" class="btn btn-primary-custom">
+                    <button type="button" class="btn btn-primary-custom" id="contactBtn">
                         <i class="bi bi-envelope-fill me-2"></i>Contáctame
-                    </a>
+                    </button>
                     <a href="https://linkedin.com/in/juan-quinto" target="_blank" class="btn btn-outline-custom">
                         <i class="bi bi-linkedin me-2"></i>LinkedIn
                     </a>
                     <a href="https://github.com/JuanSebastian23" target="_blank" class="btn btn-outline-custom">
                         <i class="bi bi-github me-2"></i>GitHub
                     </a>
-                    <button type="button" class="btn btn-outline-custom cv-button" data-bs-toggle="modal" data-bs-target="#cvModal" onclick="handleCVButtonClick(event)">
+                    <button type="button" class="btn btn-outline-custom" id="cvBtn">
                         <i class="bi bi-file-earmark-text me-2"></i>Ver CV
                     </button>
                 </div>
@@ -40,76 +40,136 @@
         </div>
     </div>
     
+    <!-- Modales personalizados, NO Bootstrap -->
     <!-- Modal CV -->
-    <div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+    <div id="customCVModal" class="custom-modal">
+        <div class="custom-modal-backdrop"></div>
+        <div class="custom-modal-container">
+            <div class="custom-modal-header">
+                <div class="custom-modal-controls">
+                    <div class="modal-control red"></div>
+                    <div class="modal-control yellow"></div>
+                    <div class="modal-control green"></div>
                 </div>
-                <div class="modal-body">
-                    <!-- Iframe con la ruta correcta del CV -->
-                    <div class="ratio ratio-1x1">
-                        <iframe src="assets/archives/Cv_Juan Sebastian Quinto H.pdf" title="Curriculum Vitae"></iframe>
+                <div class="page-indicator">
+                    <span id="currentPage">1</span>/<span id="totalPages">2</span>
+                </div>
+                <button class="custom-modal-close" id="closeCVModal">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+            <div class="custom-modal-body">
+                <div class="pdf-container cv-image-container">
+                    <div class="cv-navigation">
+                        <!-- Agrupación de la imagen y botones de navegación -->
+                        <div class="cv-navigation-controls">
+                            <button class="nav-btn prev-btn" id="prevPageBtn" disabled>
+                                <i class="bi bi-chevron-left"></i>
+                            </button>
+                            <div class="cv-pages">
+                                <img src="assets/images/page_1.jpg" class="cv-page active" alt="CV Page 1" data-page="1">
+                                <img src="assets/images/page_2.jpg" class="cv-page" alt="CV Page 2" data-page="2">
+                            </div>
+                            <button class="nav-btn next-btn" id="nextPageBtn">
+                                <i class="bi bi-chevron-right"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Controles de zoom ahora con mejor estilo -->
+                        <div class="zoom-controls">
+                            <button class="zoom-btn zoom-out" id="zoomOutBtn" title="Alejar">
+                                <i class="bi bi-dash-lg"></i>
+                            </button>
+                            <span class="zoom-level">100%</span>
+                            <button class="zoom-btn zoom-in" id="zoomInBtn" title="Acercar">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
+                        </div>
+                        <br>
                     </div>
                 </div>
-                <div class="modal-footer justify-content-center">
-                    <a href="assets/archives/Cv_Juan Sebastian Quinto H.pdf" download class="btn btn-primary-custom">
-                        <i class="bi bi-download me-2"></i>Descargar CV
-                    </a>
-                    <button type="button" class="btn btn-outline-custom btn-custom-visible" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle me-2"></i>Cerrar
-                    </button>
+            </div>
+            <div class="custom-modal-footer">
+                <a href="assets/archives/Cv_Juan Sebastian Quinto H.pdf" download class="cv-download-btn">
+                    <i class="bi bi-download me-2"></i>Descargar CV
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Contacto -->
+    <div id="customContactModal" class="custom-modal">
+        <div class="custom-modal-backdrop"></div>
+        <div class="custom-modal-container contact-modal-container">
+            <div class="custom-modal-header">
+                <h3 class="modal-title"><i class="bi bi-code-slash me-2"></i>Envíame un mensaje</h3>
+                <button class="custom-modal-close" id="closeContactModal">
+                    <i class="bi bi-x"></i>
+                </button>
+            </div>
+            <div class="custom-modal-body">
+                <div class="contact-form-wrapper">
+                    <p class="typing-effect">// Completa el formulario y me pondré en contacto contigo pronto</p>
+                    
+                    <form id="contactForm" action="assets/php/send_email.php" method="POST" class="custom-form">
+                        <div class="form-row">
+                            <div class="custom-form-group">
+                                <div class="input-wrapper">
+                                    <input type="text" id="nameInput" name="name" required>
+                                    <label for="nameInput">Nombre completo</label>
+                                    <span class="line"></span>
+                                </div>
+                                <div class="error-message"></div>
+                            </div>
+                            
+                            <div class="custom-form-group">
+                                <div class="input-wrapper">
+                                    <input type="email" id="emailInput" name="email" required>
+                                    <label for="emailInput">Correo electrónico</label>
+                                    <span class="line"></span>
+                                </div>
+                                <div class="error-message"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="custom-form-group full-width">
+                            <div class="input-wrapper">
+                                <input type="text" id="subjectInput" name="subject" required>
+                                <label for="subjectInput">Asunto</label>
+                                <span class="line"></span>
+                            </div>
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="custom-form-group full-width">
+                            <div class="input-wrapper textarea-wrapper">
+                                <textarea id="messageInput" name="message" rows="4" required></textarea>
+                                <label for="messageInput">Mensaje</label>
+                                <span class="line"></span>
+                            </div>
+                            <div class="error-message"></div>
+                        </div>
+                        
+                        <div class="form-buttons">
+                            <button type="submit" class="custom-submit-btn">
+                                <span class="btn-text">Enviar mensaje</span>
+                                <span class="btn-icon"><i class="bi bi-send-fill"></i></span>
+                            </button>
+                        </div>
+                        
+                        <div class="form-response">
+                            <div class="success-message">
+                                <i class="bi bi-check-circle-fill"></i>
+                                <span>Tu mensaje ha sido enviado correctamente.</span>
+                            </div>
+                            <div class="error-message-box">
+                                <i class="bi bi-exclamation-triangle-fill"></i>
+                                <span>Hubo un problema al enviar tu mensaje. Por favor, intenta de nuevo.</span>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
     </div>
-    
-    <!-- Script para manejar el botón CV -->
-    <script>
-        function handleCVButtonClick(event) {
-            // Comprobar si es un dispositivo móvil
-            if (window.innerWidth < 768) {
-                // Prevenir que se abra el modal
-                event.preventDefault();
-                event.stopPropagation();
-                
-                // Abrir el CV en una nueva pestaña
-                window.open('assets/archives/Cv_Juan Sebastian Quinto H.pdf', '_blank');
-                
-                // Si hay un botón de alternar de Bootstrap activo, cerrarlo
-                const navbarToggler = document.querySelector('.navbar-toggler');
-                const navbarCollapse = document.querySelector('.navbar-collapse');
-                
-                if (navbarToggler && navbarCollapse && navbarCollapse.classList.contains('show')) {
-                    navbarToggler.click();
-                }
-                
-                return false;
-            }
-            // En desktop, permitir que el modal se abra normalmente
-            return true;
-        }
-        
-        // Asegurar que el comportamiento se mantiene incluso si la ventana cambia de tamaño
-        window.addEventListener('resize', function() {
-            const cvButton = document.querySelector('.cv-button');
-            if (window.innerWidth < 768) {
-                cvButton.removeAttribute('data-bs-toggle');
-                cvButton.removeAttribute('data-bs-target');
-            } else {
-                cvButton.setAttribute('data-bs-toggle', 'modal');
-                cvButton.setAttribute('data-bs-target', '#cvModal');
-            }
-        });
-        
-        // Establecer el comportamiento correcto al cargar la página
-        document.addEventListener('DOMContentLoaded', function() {
-            const cvButton = document.querySelector('.cv-button');
-            if (window.innerWidth < 768) {
-                cvButton.removeAttribute('data-bs-toggle');
-                cvButton.removeAttribute('data-bs-target');
-            }
-        });
-    </script>
 </section>
