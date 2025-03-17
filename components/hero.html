@@ -32,6 +32,34 @@
                     <a href="https://github.com/JuanSebastian23" target="_blank" class="btn btn-outline-custom">
                         <i class="bi bi-github me-2"></i>GitHub
                     </a>
+                    <button type="button" class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#cvModal">
+                        <i class="bi bi-file-earmark-text me-2"></i>Ver CV
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Modal CV -->
+    <div class="modal fade" id="cvModal" tabindex="-1" aria-labelledby="cvModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- Iframe con la ruta correcta del CV -->
+                    <div class="ratio ratio-1x1">
+                        <iframe src="assets/archives/Cv_Juan Sebastian Quinto H.pdf" title="Curriculum Vitae"></iframe>
+                    </div>
+                </div>
+                <div class="modal-footer justify-content-center">
+                    <a href="assets/archives/Cv_Juan Sebastian Quinto H.pdf" download class="btn btn-primary-custom">
+                        <i class="bi bi-download me-2"></i>Descargar CV
+                    </a>
+                    <button type="button" class="btn btn-outline-custom btn-custom-visible" data-bs-dismiss="modal">
+                        <i class="bi bi-x-circle me-2"></i>Cerrar
+                    </button>
                 </div>
             </div>
         </div>
