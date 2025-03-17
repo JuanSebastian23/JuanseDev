@@ -1,5 +1,9 @@
 # Archivos de configuración con claves API y datos sensibles
 assets/php/config.php
+.env
+
+# Logs de errores y depuración
+assets/php/logs/
 
 # Archivos de sistema
 .DS_Store

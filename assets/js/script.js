@@ -494,11 +494,25 @@ function submitForm(form, inputs) {
     // Enviar formulario con fetch
     const formData = new FormData(form);
     
+    // Agregamos un timeout más largo para entornos con conexiones lentas
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 segundos de timeout
+    
     fetch(form.action, {
         method: 'POST',
-        body: formData
+        body: formData,
+        signal: controller.signal,
+        headers: {
+            // No incluir Content-Type para dejar que el navegador lo maneje con FormData
+        }
     })
-    .then(response => response.json())
+    .then(response => {
+        clearTimeout(timeoutId);
+        if (!response.ok) {
+            throw new Error(`Error HTTP: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.success) {
             // Mostrar mensaje de éxito
@@ -524,16 +538,73 @@ function submitForm(form, inputs) {
             // Mostrar mensaje de error
             document.querySelector('.form-response .error-message-box').style.display = 'flex';
             document.querySelector('.form-response .error-message-box span').textContent = data.message;
+            console.error('Error en envío de formulario:', data.message);
         }
     })
     .catch(error => {
-        // Error de conexión
-        document.querySelector('.form-response .error-message-box').style.display = 'flex';
-        document.querySelector('.form-response .error-message-box span').textContent = 'Error de conexión. Por favor, intenta de nuevo.';
+        clearTimeout(timeoutId);
+        console.error('Error al enviar formulario:', error);
+        
+        // Intentar envío alternativo en caso de error
+        retryWithXHR(form, formData);
     })
     .finally(() => {
         // Restaurar botón
         submitBtn.classList.remove('loading');
         btnText.textContent = originalText;
     });
+}
+
+// Función de respaldo usando XMLHttpRequest en caso de fallo con fetch
+function retryWithXHR(form, formData) {
+    console.log('Intentando envío alternativo con XMLHttpRequest');
+    
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', form.action, true);
+    xhr.timeout = 30000; // 30 segundos
+    
+    xhr.onload = function() {
+        if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+                const response = JSON.parse(xhr.responseText);
+                
+                if (response.success) {
+                    document.querySelector('.form-response .success-message').style.display = 'flex';
+                    document.querySelector('.form-response .success-message span').textContent = response.message;
+                    
+                    form.reset();
+                    
+                    setTimeout(() => {
+                        const customContactModal = document.getElementById('customContactModal');
+                        customContactModal.classList.remove('visible');
+                        setTimeout(() => {
+                            customContactModal.classList.remove('active');
+                            document.body.classList.remove('no-scroll');
+                        }, 300);
+                    }, 3000);
+                } else {
+                    document.querySelector('.form-response .error-message-box').style.display = 'flex';
+                    document.querySelector('.form-response .error-message-box span').textContent = response.message;
+                }
+            } catch (e) {
+                document.querySelector('.form-response .error-message-box').style.display = 'flex';
+                document.querySelector('.form-response .error-message-box span').textContent = 'Error al procesar la respuesta del servidor';
+            }
+        } else {
+            document.querySelector('.form-response .error-message-box').style.display = 'flex';
+            document.querySelector('.form-response .error-message-box span').textContent = 'Error de conexión. Por favor, intenta de nuevo.';
+        }
+    };
+    
+    xhr.onerror = function() {
+        document.querySelector('.form-response .error-message-box').style.display = 'flex';
+        document.querySelector('.form-response .error-message-box span').textContent = 'Error de conexión. Por favor, intenta de nuevo.';
+    };
+    
+    xhr.ontimeout = function() {
+        document.querySelector('.form-response .error-message-box').style.display = 'flex';
+        document.querySelector('.form-response .error-message-box span').textContent = 'La conexión ha tardado demasiado. Por favor, intenta de nuevo.';
+    };
+    
+    xhr.send(formData);
 }
