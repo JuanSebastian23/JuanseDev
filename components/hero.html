@@ -32,7 +32,7 @@
                     <a href="https://github.com/JuanSebastian23" target="_blank" class="btn btn-outline-custom">
                         <i class="bi bi-github me-2"></i>GitHub
                     </a>
-                    <button type="button" class="btn btn-outline-custom" data-bs-toggle="modal" data-bs-target="#cvModal">
+                    <button type="button" class="btn btn-outline-custom cv-button" data-bs-toggle="modal" data-bs-target="#cvModal" onclick="handleCVButtonClick(event)">
                         <i class="bi bi-file-earmark-text me-2"></i>Ver CV
                     </button>
                 </div>
@@ -64,4 +64,52 @@
             </div>
         </div>
     </div>
+    
+    <!-- Script para manejar el botón CV -->
+    <script>
+        function handleCVButtonClick(event) {
+            // Comprobar si es un dispositivo móvil
+            if (window.innerWidth < 768) {
+                // Prevenir que se abra el modal
+                event.preventDefault();
+                event.stopPropagation();
+                
+                // Abrir el CV en una nueva pestaña
+                window.open('assets/archives/Cv_Juan Sebastian Quinto H.pdf', '_blank');
+                
+                // Si hay un botón de alternar de Bootstrap activo, cerrarlo
+                const navbarToggler = document.querySelector('.navbar-toggler');
+                const navbarCollapse = document.querySelector('.navbar-collapse');
+                
+                if (navbarToggler && navbarCollapse && navbarCollapse.classList.contains('show')) {
+                    navbarToggler.click();
+                }
+                
+                return false;
+            }
+            // En desktop, permitir que el modal se abra normalmente
+            return true;
+        }
+        
+        // Asegurar que el comportamiento se mantiene incluso si la ventana cambia de tamaño
+        window.addEventListener('resize', function() {
+            const cvButton = document.querySelector('.cv-button');
+            if (window.innerWidth < 768) {
+                cvButton.removeAttribute('data-bs-toggle');
+                cvButton.removeAttribute('data-bs-target');
+            } else {
+                cvButton.setAttribute('data-bs-toggle', 'modal');
+                cvButton.setAttribute('data-bs-target', '#cvModal');
+            }
+        });
+        
+        // Establecer el comportamiento correcto al cargar la página
+        document.addEventListener('DOMContentLoaded', function() {
+            const cvButton = document.querySelector('.cv-button');
+            if (window.innerWidth < 768) {
+                cvButton.removeAttribute('data-bs-toggle');
+                cvButton.removeAttribute('data-bs-target');
+            }
+        });
+    </script>
 </section>
