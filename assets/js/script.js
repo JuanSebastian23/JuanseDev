@@ -18,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Verificar si el elemento existe en el DOM
         if (!element) {
-            console.error(`Elemento con ID '${component.id}' no encontrado en el DOM`);
             return Promise.reject(`Elemento con ID '${component.id}' no encontrado`);
         }
         
@@ -31,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .then(html => {
                 element.innerHTML = html;
-                console.log(`Componente ${component.id} cargado exitosamente`);
                 
                 // Si es el componente hero, inicializar los modales personalizados
                 if (component.id === 'hero-component') {
@@ -46,7 +44,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return component.id;
             })
             .catch(error => {
-                console.error(`Error al cargar ${component.path}:`, error);
                 element.innerHTML = `<div class="alert alert-danger">Error al cargar el componente</div>`;
             });
     }
@@ -178,8 +175,6 @@ $.easing.easeInOutQuart = function (x, t, b, c, d) {
 
 // Función para inicializar los modales personalizados
 function initializeCustomModals() {
-    console.log("Inicializando modales personalizados después de cargar hero...");
-    
     // Referencias a los elementos del DOM (ahora podemos localizarlos correctamente)
     const cvBtn = document.getElementById('cvBtn');
     const contactBtn = document.getElementById('contactBtn');
@@ -188,12 +183,8 @@ function initializeCustomModals() {
     const closeCVModal = document.getElementById('closeCVModal');
     const closeContactModal = document.getElementById('closeContactModal');
     
-    console.log("Botón CV:", cvBtn);
-    console.log("Botón Contacto:", contactBtn);
-    
     // Verificar si los elementos existen
     if (!customCVModal || !customContactModal) {
-        console.error("No se encontraron los modales personalizados");
         return;
     }
     
@@ -202,7 +193,6 @@ function initializeCustomModals() {
     
     // Funcionalidad para abrir/cerrar modales
     function openModal(modal) {
-        console.log("Abriendo modal:", modal.id);
         document.body.classList.add('no-scroll');
         modal.classList.add('active');
         setTimeout(() => {
@@ -211,7 +201,6 @@ function initializeCustomModals() {
     }
     
     function closeModal(modal) {
-        console.log("Cerrando modal:", modal.id);
         modal.classList.remove('visible');
         setTimeout(() => {
             modal.classList.remove('active');
@@ -223,7 +212,6 @@ function initializeCustomModals() {
     if (cvBtn) {
         cvBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log("Clic en botón CV");
             // Si es móvil, abrir en nueva pestaña
             if (window.innerWidth < 768) {
                 window.open('assets/archives/Cv_Juan Sebastian Quinto H.pdf', '_blank');
@@ -231,18 +219,13 @@ function initializeCustomModals() {
                 openModal(customCVModal);
             }
         });
-    } else {
-        console.error("No se encontró el botón de CV");
     }
     
     if (contactBtn) {
         contactBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            console.log("Clic en botón Contacto");
             openModal(customContactModal);
         });
-    } else {
-        console.error("No se encontró el botón de Contacto");
     }
     
     // Event listeners para cerrar modales
@@ -331,8 +314,6 @@ function initializeCustomModals() {
                 submitForm(form, inputs);
             }
         });
-    } else {
-        console.error("No se encontró el formulario de contacto");
     }
 }
 
@@ -355,7 +336,6 @@ function initCVPageNavigation() {
     const maxZoom = 200; // Zoom máximo
     
     if (!prevBtn || !nextBtn || !pages.length || !currentPageEl || !totalPagesEl) {
-        console.error('No se encontraron elementos necesarios para la navegación del CV');
         return;
     }
     
@@ -538,12 +518,10 @@ function submitForm(form, inputs) {
             // Mostrar mensaje de error
             document.querySelector('.form-response .error-message-box').style.display = 'flex';
             document.querySelector('.form-response .error-message-box span').textContent = data.message;
-            console.error('Error en envío de formulario:', data.message);
         }
     })
     .catch(error => {
         clearTimeout(timeoutId);
-        console.error('Error al enviar formulario:', error);
         
         // Intentar envío alternativo en caso de error
         retryWithXHR(form, formData);
@@ -557,8 +535,6 @@ function submitForm(form, inputs) {
 
 // Función de respaldo usando XMLHttpRequest en caso de fallo con fetch
 function retryWithXHR(form, formData) {
-    console.log('Intentando envío alternativo con XMLHttpRequest');
-    
     const xhr = new XMLHttpRequest();
     xhr.open('POST', form.action, true);
     xhr.timeout = 30000; // 30 segundos

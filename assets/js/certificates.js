@@ -14,14 +14,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Estado actual del zoom
         let currentZoom = 1;
 
-        // Debug - Mostrar elementos encontrados
-        console.log('Botones de filtro encontrados:', filterButtons.length);
-        console.log('Elementos de certificado encontrados:', certificateItems.length);
-
         // Verificar que los elementos necesarios existen
-        if (!certificateCount) {
-            console.warn('Elemento con ID "certificateCount" no encontrado');
-        } else {
+        if (certificateCount) {
             // Inicializar contador solo si el elemento existe
             updateCounter('all');
         }
@@ -29,12 +23,8 @@ document.addEventListener('DOMContentLoaded', function() {
         // Manejar clicks en botones de filtro
         if (filterButtons.length > 0) {
             filterButtons.forEach(btn => {
-                // Debug - Verificar datos del filtro
-                console.log('Botón de filtro:', btn.textContent.trim(), 'con filtro:', btn.dataset.filter);
-                
                 btn.addEventListener('click', function() {
                     const filter = this.dataset.filter;
-                    console.log('Filtro seleccionado:', filter);
                     
                     // Actualizar botones activos
                     filterButtons.forEach(button => button.classList.remove('active'));
@@ -50,11 +40,8 @@ document.addEventListener('DOMContentLoaded', function() {
         function filterCertificates(filter) {
             let visibleCount = 0;
             
-            console.log('Aplicando filtro:', filter);
-            
             certificateItems.forEach(item => {
                 const category = item.dataset.category;
-                console.log('Certificado:', item, 'Categoría:', category);
                 
                 if (filter === 'all' || filter === category) {
                     item.style.display = 'block';
@@ -175,10 +162,8 @@ document.addEventListener('DOMContentLoaded', function() {
             filterCertificates('all');
         }
         
-        console.log('Certificados: Script inicializado correctamente');
-        
     } catch (error) {
-        console.error('Error en el script de certificados:', error);
+        // Error silencioso sin console.error
     }
     
     // Función para agregar tooltip a ciertos elementos
